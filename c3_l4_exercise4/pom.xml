@@ -27,7 +27,7 @@
 					</execution>
 				</executions>
 				<configuration>
-					<mainClass>com.udacity.course3.lesson4.exercise4.Exercise4Application</mainClass>
+					<mainClass>com.udacity.course3.lesson4.exercise4.Application</mainClass>
 				</configuration>
 			</plugin>
 		</plugins>

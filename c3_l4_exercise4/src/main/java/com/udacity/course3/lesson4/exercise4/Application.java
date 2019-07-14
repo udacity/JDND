@@ -1,6 +1,6 @@
 package com.udacity.course3.lesson4.exercise4;
 
-public class Exercise4Application {
+public class Application {
 
     public static void main(String[] args) {
         // STEP 1: Craft the URI to connect to your local MongoDB server
