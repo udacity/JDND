@@ -13,6 +13,12 @@ public class BinarySearchDemo {
                 start = mid;
             }
         }
+        if (arr[start] == target)  {
+            return start;
+        }
+        if (arr[end] == target) {
+            return end;
+        }
         return -1;
     }
 }

@@ -16,4 +16,20 @@ public class BinarySearchDemoTest {
         int expect = -1;
         Assert.assertEquals(expect, BinarySearchDemo.findTarget(arr, target));
     }
+
+    @org.junit.Test
+    public void findTargetTest3() throws Exception {
+        int[] arr = new int[]{1, 2, 3, 4, 5};
+        int target = 1;
+        int expect = 0;
+        Assert.assertEquals(expect, BinarySearchDemo.findTarget(arr, target));
+    }
+
+    @org.junit.Test
+    public void findTargetTest4() throws Exception {
+        int[] arr = new int[]{1, 2, 3, 4, 5};
+        int target = 5;
+        int expect = 4;
+        Assert.assertEquals(expect, BinarySearchDemo.findTarget(arr, target));
+    }
 }
