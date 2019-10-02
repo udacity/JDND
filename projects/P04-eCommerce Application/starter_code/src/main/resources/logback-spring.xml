@@ -1,0 +1,95 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	<property resource="application.properties" />
+	<property name="LOGS" value="./logs" />
+	<contextName>${spring.application.name}</contextName>
+
+	<appender name="RollingFile"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<File>${LOGS}/udacity-ecommerce.log</File>
+
+		<rollingPolicy
+			class="ch.qos.logback.core.rolling.FixedWindowRollingPolicy">
+			<maxIndex>1</maxIndex>
+			<fileNamePattern>${LOGS}/udacity-ecommerce.log.%i</fileNamePattern>
+		</rollingPolicy>
+
+		<triggeringPolicy
+			class="ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy">
+			<MaxFileSize>1MB</MaxFileSize>
+		</triggeringPolicy>
+
+		<encoder
+			class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+			<providers>
+				<timestamp>
+					<timeZone>UTC</timeZone>
+				</timestamp>
+				<callerData>
+					<classFieldName>classname</classFieldName>
+					<methodFieldName>method</methodFieldName>
+					<fileFieldName>file</fileFieldName>
+					<lineFieldName>line</lineFieldName>
+				</callerData>
+				<threadName>
+					<fieldName>thread</fieldName>
+				</threadName>
+				<loggerName />
+				<logLevel />
+				<message />
+				<mdc />
+				<arguments>
+					<includeNonStructuredArguments>true</includeNonStructuredArguments>
+				</arguments>
+				<logstashMarkers />
+				<stackTrace />
+			</providers>
+		</encoder>
+	</appender>
+
+	<appender name="Console"
+		class="ch.qos.logback.core.ConsoleAppender">
+		<encoder
+			class="net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder">
+			<providers>
+				<contextName>
+					<fieldName>app</fieldName>
+				</contextName>
+				<timestamp>
+					<fieldName>ts</fieldName>
+					<timeZone>UTC</timeZone>
+				</timestamp>
+				<loggerName>
+					<fieldName>logger</fieldName>
+				</loggerName>
+				<logLevel>
+					<fieldName>level</fieldName>
+				</logLevel>
+				<callerData>
+					<classFieldName>class</classFieldName>
+					<methodFieldName>method</methodFieldName>
+					<lineFieldName>line</lineFieldName>
+					<fileFieldName>file</fileFieldName>
+				</callerData>
+				<threadName>
+					<fieldName>thread</fieldName>
+				</threadName>
+				<mdc />
+				<arguments>
+					<includeNonStructuredArguments>false
+					</includeNonStructuredArguments>
+				</arguments>
+				<stackTrace>
+					<fieldName>stack</fieldName>
+				</stackTrace>
+				<message>
+					<fieldName>msg</fieldName>
+				</message>
+			</providers>
+		</encoder>
+	</appender>
+	<root level="INFO">
+		<appender-ref ref="Console" />
+		<appender-ref ref="RollingFile" />
+	</root>
+</configuration>

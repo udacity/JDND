@@ -11,7 +11,6 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
-import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
@@ -22,64 +21,64 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 @Table(name = "user_order")
 public class UserOrder {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
-	@JsonProperty
-	@Column
-	private Long id;
-	
-	@ManyToMany(cascade = CascadeType.ALL)
-	@JsonProperty
-	@Column
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @JsonProperty
+    @Column
+    private Long id;
+
+    @ManyToMany(cascade = CascadeType.ALL)
+    @JsonProperty
+    @Column
     private List<Item> items;
-	
-	@ManyToOne
-	@JoinColumn(name="user_id", nullable = false, referencedColumnName = "id")
-	@JsonProperty
+
+    @ManyToOne
+    @JoinColumn(name = "user_id", nullable = false, referencedColumnName = "id")
+    @JsonProperty
     private User user;
-	
-	@JsonProperty
-	@Column
-	private BigDecimal total;
 
-	public Long getId() {
-		return id;
-	}
+    @JsonProperty
+    @Column
+    private BigDecimal total;
 
-	public void setId(Long id) {
-		this.id = id;
-	}
+    public Long getId() {
+        return id;
+    }
 
-	public List<Item> getItems() {
-		return items;
-	}
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-	public void setItems(List<Item> items) {
-		this.items = items;
-	}
+    public List<Item> getItems() {
+        return items;
+    }
 
-	public User getUser() {
-		return user;
-	}
+    public void setItems(List<Item> items) {
+        this.items = items;
+    }
 
-	public void setUser(User user) {
-		this.user = user;
-	}
-	
-	public BigDecimal getTotal() {
-		return total;
-	}
+    public User getUser() {
+        return user;
+    }
 
-	public void setTotal(BigDecimal total) {
-		this.total = total;
-	}
+    public void setUser(User user) {
+        this.user = user;
+    }
 
-	public static UserOrder createFromCart(Cart cart) {
-		UserOrder order = new UserOrder();
-		order.setItems(cart.getItems().stream().collect(Collectors.toList()));
-		order.setTotal(cart.getTotal());
-		order.setUser(cart.getUser());
-		return order;
-	}
-	
+    public BigDecimal getTotal() {
+        return total;
+    }
+
+    public void setTotal(BigDecimal total) {
+        this.total = total;
+    }
+
+    public static UserOrder createFromCart(Cart cart) {
+        UserOrder order = new UserOrder();
+        order.setItems(cart.getItems().stream().collect(Collectors.toList()));
+        order.setTotal(cart.getTotal());
+        order.setUser(cart.getUser());
+        return order;
+    }
+
 }
