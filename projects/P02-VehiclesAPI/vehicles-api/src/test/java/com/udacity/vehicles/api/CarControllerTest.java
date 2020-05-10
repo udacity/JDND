@@ -110,6 +110,18 @@ public class CarControllerTest {
          *   a vehicle by ID. This should utilize the car from `getCar()` below.
          */
     }
+    
+     /**
+     * Tests the update operation of the car by.
+     * @throws Exception when car update fails in the system
+     */
+    @Test
+    public void updateCar() throws Exception {
+        /**
+         * TODO: Add a test to check whether a vehicle is appropriately update or not.
+         *  This should utilize the car from `getCar()` below.
+         */
+    }
 
     /**
      * Tests the deletion of a single car by ID.
