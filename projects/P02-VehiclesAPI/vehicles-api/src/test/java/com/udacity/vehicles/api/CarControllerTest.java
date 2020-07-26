@@ -80,8 +80,8 @@ public class CarControllerTest {
         mvc.perform(
                 post(new URI("/cars"))
                         .content(json.write(car).getJson())
-                        .contentType(MediaType.APPLICATION_JSON_UTF8)
-                        .accept(MediaType.APPLICATION_JSON_UTF8))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isCreated());
     }
 
