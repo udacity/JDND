@@ -1,17 +1,17 @@
 package com.example.demo.model.requests;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
+import lombok.Data;
 
+@Data
 public class CreateUserRequest {
 
 	@JsonProperty
 	private String username;
 
-	public String getUsername() {
-		return username;
-	}
+	@JsonProperty
+	private String password;
 
-	public void setUsername(String username) {
-		this.username = username;
-	}
+	@JsonProperty
+	private String confirmPassword;
 }
