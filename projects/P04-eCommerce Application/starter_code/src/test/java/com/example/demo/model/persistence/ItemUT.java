@@ -5,7 +5,7 @@ import org.junit.jupiter.api.Test;
 
 import java.math.BigDecimal;
 
-class ItemTest {
+class ItemUT {
 
     @Test
     void hashCode_ItemIdIsNull() {
@@ -88,6 +88,7 @@ class ItemTest {
 
         Assertions.assertFalse(equals);
     }
+
     private Item createItem(String name, String description, BigDecimal price) {
         Item item = new Item();
         item.setName(name);
