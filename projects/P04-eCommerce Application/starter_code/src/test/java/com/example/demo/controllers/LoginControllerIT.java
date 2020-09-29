@@ -1,7 +1,5 @@
 package com.example.demo.controllers;
 
-import com.example.demo.model.persistence.User;
-import com.example.demo.model.persistence.repositories.UserRepository;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -28,21 +26,12 @@ public class LoginControllerIT {
     private MockMvc mvc;
 
     @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
     private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     @Test
     public void login_http_ok() throws Exception {
         //given
-        User user = new User();
-        user.setUsername("test_http_ok");
-        user.setPassword(encodePassword("password"));
-
-        userRepository.save(user);
-
-        String loginRequest = "{\"username\":\"test_http_ok\",\"password\":\"password\"}";
+        String loginRequest = "{\"username\":\"test_username\",\"password\":\"password\"}";
 
         //expect
         mvc.perform(
@@ -56,13 +45,7 @@ public class LoginControllerIT {
     @Test
     public void login_http_unauthorized() throws Exception {
         //given
-        User user = new User();
-        user.setUsername("test_unautorized");
-        user.setPassword(encodePassword("password"));
-
-        userRepository.save(user);
-
-        String invalidLoginRequest = "{\"username\":\"test_unautorized\",\"password\":\"invalid_password\"}";
+        String invalidLoginRequest = "{\"username\":\"test_username\",\"password\":\"invalid_password\"}";
 
         //expect
         mvc.perform(
