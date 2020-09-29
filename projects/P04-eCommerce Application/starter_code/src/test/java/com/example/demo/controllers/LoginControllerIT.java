@@ -26,6 +26,7 @@ public class LoginControllerIT {
 
     @Autowired
     private MockMvc mvc;
+
     @Autowired
     private UserRepository userRepository;
 
