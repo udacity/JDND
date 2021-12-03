@@ -1,28 +1,21 @@
 package com.udacity.vehicles.api;
 
 
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.linkTo;
-import static org.springframework.hateoas.mvc.ControllerLinkBuilder.methodOn;
-
 import com.udacity.vehicles.domain.car.Car;
 import com.udacity.vehicles.service.CarService;
-import java.net.URI;
+import org.springframework.hateoas.CollectionModel;
+import org.springframework.hateoas.EntityModel;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.net.URISyntaxException;
 import java.util.List;
+import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
-import javax.validation.Valid;
 
-import org.springframework.hateoas.Resource;
-import org.springframework.hateoas.Resources;
-import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.DeleteMapping;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo;
+import static org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.methodOn;
 
 /**
  * Implements a REST-based controller for the Vehicles API.
@@ -32,9 +25,9 @@ import org.springframework.web.bind.annotation.RestController;
 class CarController {
 
     private final CarService carService;
-    private final CarResourceAssembler assembler;
+    private final CarModelAssembler assembler;
 
-    CarController(CarService carService, CarResourceAssembler assembler) {
+    CarController(CarService carService, CarModelAssembler assembler) {
         this.carService = carService;
         this.assembler = assembler;
     }
@@ -44,10 +37,10 @@ class CarController {
      * @return list of vehicles
      */
     @GetMapping
-    Resources<Resource<Car>> list() {
-        List<Resource<Car>> resources = carService.list().stream().map(assembler::toResource)
+    CollectionModel<EntityModel<Car>> list() {
+        List<EntityModel<Car>> models = carService.list().stream().map(assembler::toModel)
                 .collect(Collectors.toList());
-        return new Resources<>(resources,
+        return new CollectionModel<>(models,
                 linkTo(methodOn(CarController.class).list()).withSelfRel());
     }
 
@@ -57,13 +50,13 @@ class CarController {
      * @return all information for the requested vehicle
      */
     @GetMapping("/{id}")
-    Resource<Car> get(@PathVariable Long id) {
+    EntityModel<Car> get(@PathVariable Long id) {
         /**
          * TODO: Use the `findById` method from the Car Service to get car information.
          * TODO: Use the `assembler` on that car and return the resulting output.
          *   Update the first line as part of the above implementing.
          */
-        return assembler.toResource(new Car());
+        return assembler.toModel(new Car());
     }
 
     /**
@@ -73,14 +66,14 @@ class CarController {
      * @throws URISyntaxException if the request contains invalid fields or syntax
      */
     @PostMapping
-    ResponseEntity<?> post(@Valid @RequestBody Car car) throws URISyntaxException {
+    ResponseEntity<?> post(@Valid @RequestBody Car car) throws NoSuchElementException {
         /**
          * TODO: Use the `save` method from the Car Service to save the input car.
          * TODO: Use the `assembler` on that saved car and return as part of the response.
          *   Update the first line as part of the above implementing.
          */
-        Resource<Car> resource = assembler.toResource(new Car());
-        return ResponseEntity.created(new URI(resource.getId().expand().getHref())).body(resource);
+        EntityModel<Car> model = assembler.toModel(new Car());
+        return ResponseEntity.created(model.getLink("self").get().toUri()).body(model);
     }
 
     /**
@@ -97,7 +90,7 @@ class CarController {
          * TODO: Use the `assembler` on that updated car and return as part of the response.
          *   Update the first line as part of the above implementing.
          */
-        Resource<Car> resource = assembler.toResource(new Car());
+        EntityModel<Car> resource = assembler.toModel(new Car());
         return ResponseEntity.ok(resource);
     }
 
